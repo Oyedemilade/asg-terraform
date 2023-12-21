@@ -1,15 +1,4 @@
-# data "aws_route53_zone" "primary" {
-#   count = "${var.domain-name != "" ? 1 : 0}"
 
-#   name = "${var.domain-name}"
-# }
-
-# data "aws_acm_certificate" "example" {
-#   count = "${var.use_cloudfront != "false" ? 1 : 0}"
-
-#   provider = "aws.useast1"                                // SSL certificate must be in US-east-1 to use with Cloudfront
-#   domain   = "${var.domain-name}"
-# }
 
 data "aws_route53_zone" "primary" {
   count = "${var.root-domain != "" ? 1 : 0}"
@@ -32,7 +21,7 @@ resource "aws_route53_record" "www" {
   depends_on = ["aws_lb.alb", "aws_cloudfront_distribution.cdn"]  
 
   zone_id = "${data.aws_route53_zone.primary.zone_id}"
-  name    = "${var.domain-name}"
+  name    = "${var.domain-name}"S
   type    = "A"
 
   alias = {
